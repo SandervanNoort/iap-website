@@ -371,7 +371,7 @@ function print_navigation($page)
 function print_footer() {
     echo "<div id='footer'>
             <div id='footerclose'>
-                &copy; 2012 Influenzanet &nbsp;|&nbsp;
+                &copy; 2020 Sander van Noort &nbsp;|&nbsp;
                 <a href='?page=home' title='Contact us'>Contact</a>
             </div>
         </div>

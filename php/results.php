@@ -228,11 +228,11 @@ function results()
             $title = "$country_name ($season_name) - $group_name";
         }
         echo "<h1>$title</h1>";
-        echo "<p>
-              Some results are password protected. Please
-              <a href=\"https://www.influenzanet.eu/en/contact/\"
-              >contact us</a> on how to obtain access.
-              </p>";
+//        echo "<p>
+//              Some results are password protected. Please
+//              <a href=\"https://www.influenzanet.eu/en/contact/\"
+//              >contact us</a> on how to obtain access.
+//              </p>";
         echo trans($vars["group"], "website_description", True);
         echo "<div class='results'>\n";
         foreach ($fignames as $key=>$figname) {

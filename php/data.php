@@ -246,7 +246,7 @@ function data()
     echo converted($countries);
     echo orig($countries);
 
-    echo restricted();
+//    echo restricted();
     echo other();
     echo source();
 
