@@ -96,7 +96,7 @@ function results_first() {
  
     $vars = array("casedef" => "ilit",
             "group" => "overview",
-            "type" => "disease_base__ili",
+            "type" => "activity__participants",
             "lang" => "en",
             "country" => "compare");
 
