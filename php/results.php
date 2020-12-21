@@ -98,14 +98,14 @@ function results_first() {
             "group" => "overview",
             "type" => "activity__participants",
             "lang" => "en",
-            "country" => "compare");
+            "country" => "nl");
 
     echo "<div id='col1-left'><div id='col1' class='col1'>";
     echo "<h1>".trans("inet", "source"). " Results </h1>\n";
     echo trans("results", "website_description", True);
     echo "<div class='results'>";
 
-    foreach (get_options("country") as $vars["country"]) {
+//    foreach (get_options("country") as $vars["country"]) {
         foreach (get_options("season") as $vars["season"]) {
             $figname = get_figname($vars);
             $basename = get_realname($figname, $vars);
@@ -116,10 +116,10 @@ function results_first() {
                     $href .= "&{$key}={$value}";
                 }
                 echo img($vars, $figname, $href, false);
-                break;
+//                break;
             }
         }
-    }
+//    }
 
     clear();
     echo "</div>"; // end results
