@@ -17,8 +17,8 @@ function map($realname)
     foreach (scandir($local_dir) as $imgname) {
         $info = pathinfo($imgname);
         if (array_key_exists("extension", $info) &&
-                 in_array($info["extension"],
-                          array("png", "jpg", "jpeg", "gif"))) {
+            in_array($info["extension"],
+                array("png", "jpg", "jpeg", "gif"))) {
             $output .= "<img src='$public_dir/$imgname' 
                     width='$width' height='$height' 
                     alt='The Netherlands / Belgium'/>";
@@ -43,7 +43,7 @@ function map($realname)
 
     if (count($items) > 0) {
         $buttons = buttonsDropdown($items, $hrefs);
-        $output  = "<div style='float: right; padding-right: 50px'
+        $output = "<div style='float: right; padding-right: 50px'
                     >$buttons</div>
                     <div style='clear:both'>$output</div>";
     }
@@ -53,7 +53,8 @@ function map($realname)
     return $output;
 }
 
-function has_key($figname, $key) {
+function has_key($figname, $key)
+{
     if (is_array($figname)) {
         $has = False;
         foreach ($figname as $subfigname) {
@@ -68,12 +69,13 @@ function has_key($figname, $key) {
     }
 }
 
-function get_fignames($vars) {
+function get_fignames($vars)
+{
     global $MENU;
     $fignames = array();
     $all_vars = array();
 
-    foreach(array("country", "season", "casedef") as $var) {
+    foreach (array("country", "season", "casedef") as $var) {
         if ($vars[$var] == "compare") {
             foreach (get_options($var, True) as $vars[$var]) {
                 $fignames[] = get_figname($vars);
@@ -89,45 +91,43 @@ function get_fignames($vars) {
     return array($fignames, $all_vars);
 }
 
-function results_first() {
+function results_first()
+{
     // show the first results page, with links
- 
-    global $MENU, $CONFIG;
- 
-    $vars = array("casedef" => "ilit",
-            "group" => "overview",
-            "type" => "activity__participants",
-            "lang" => "en",
-            "country" => "nl");
+
+    global $CONFIG;
+
+    $vars = array("casedef" => "corona",
+        "group" => "overview",
+        "type" => "disease_prev__ili",
+        "lang" => "en",
+        "season" => get_options("season")[0]);
 
     echo "<div id='col1-left'><div id='col1' class='col1'>";
-    echo "<h1>".trans("inet", "source"). " Results </h1>\n";
+    echo "<h1>" . trans("inet", "source") . " Results </h1>\n";
     echo trans("results", "website_description", True);
     echo "<div class='results'>";
 
-//    foreach (get_options("country") as $vars["country"]) {
-        foreach (get_options("season") as $vars["season"]) {
-            $figname = get_figname($vars);
-            $basename = get_realname($figname, $vars);
-            $ini = "{$CONFIG["local"]["ini"]}/{$basename}.ini";
-            if (file_exists($ini)) {
-                $href = "?page=results";
-                foreach ($vars as $key=>$value) {
-                    $href .= "&{$key}={$value}";
-                }
-                echo img($vars, $figname, $href, false);
-//                break;
+    foreach (get_options("country") as $vars["country"]) {
+        $figname = get_figname($vars);
+        $basename = get_realname($figname, $vars);
+        $ini = "{$CONFIG["local"]["ini"]}/{$basename}.ini";
+        if (file_exists($ini)) {
+            $href = "?page=results";
+            foreach ($vars as $key => $value) {
+                $href .= "&{$key}={$value}";
             }
+            echo img($vars, $figname, $href);
         }
-//    }
+    }
 
     clear();
     echo "</div>"; // end results
     echo "</div></div>"; // end col1-left, col1
     epibanner();
 }
- 
-function results() 
+
+function results()
 {
     global $MENU, $CONFIG;
 
@@ -138,11 +138,11 @@ function results()
 
     $group = getMenu("group");
     $vars = array("group" => $group,
-            "country" => getMenu("country"),
-            "season" => getMenu("season"),
-            "casedef" => getMenu("casedef"),
-            "lang" => getMenu("lang"),
-            "type" => getMenu("type", $group));
+        "country" => getMenu("country"),
+        "season" => getMenu("season"),
+        "casedef" => getMenu("casedef"),
+        "lang" => getMenu("lang"),
+        "type" => getMenu("type", $group));
 
     list($fignames, $all_figvars) = get_fignames($vars);
     $has_casedef = has_key($fignames, "casedef");
@@ -172,8 +172,8 @@ function results()
     echo "<div id='col2' class='col2'>\n";
     echo "<p class='title' style='margin-bottom: 1em'>Options</p>\n";
     $compare = ($vars["country"] == "compare"
-                || $vars["season"] == "compare"
-                || $vars["casedef"] == "compare");
+        || $vars["season"] == "compare"
+        || $vars["casedef"] == "compare");
 
     foreach (array("country", "season", "group", "type", "casedef") as $var) {
         // NO LANGUAGE FOR THE MOMENT
@@ -235,7 +235,7 @@ function results()
 //              </p>";
         echo trans($vars["group"], "website_description", True);
         echo "<div class='results'>\n";
-        foreach ($fignames as $key=>$figname) {
+        foreach ($fignames as $key => $figname) {
             echo img($all_figvars[$key], $figname, "", true);
         }
         clear();
@@ -257,7 +257,7 @@ function results()
     echo "</div></div>"; // end col1-right, col1
 }
 
-function getMenuLinks($var, $vars, $show_all=False)
+function getMenuLinks($var, $vars, $show_all = False)
 {
     global $MENU, $CONFIG;
 
@@ -269,7 +269,7 @@ function getMenuLinks($var, $vars, $show_all=False)
     $selected = transMenu($vars[$var], $group);
 
     $href = "?page=results";
-    foreach ($vars as $key=>$value) {
+    foreach ($vars as $key => $value) {
         if ($key != $var) {
             $href .= "&{$key}={$value}";
         }
@@ -297,7 +297,7 @@ function getMenuLinks($var, $vars, $show_all=False)
     return array($items, $hrefs, $selected);
 }
 
-function get_figname($vars) 
+function get_figname($vars)
 {
     global $MENU, $CONFIG;
 
@@ -308,12 +308,12 @@ function get_figname($vars)
     }
 
     if ($vars["season"] == "all" &&
-            array_key_exists("figname_{$type}_all", $MENU[$group])) {
+        array_key_exists("figname_{$type}_all", $MENU[$group])) {
         $figname = $MENU[$group]["figname_{$type}_all"];
     } elseif (array_key_exists("figname_{$type}", $MENU[$group])) {
         $figname = $MENU[$group]["figname_{$type}"];
     } elseif ($vars["season"] == "all" &&
-            array_key_exists("figname_all", $MENU[$group])) {
+        array_key_exists("figname_all", $MENU[$group])) {
         $figname = $MENU[$group]["figname_all"];
     } elseif (array_key_exists("figname", $MENU[$group])) {
         $figname = $MENU[$group]["figname"];
@@ -324,34 +324,36 @@ function get_figname($vars)
     return $figname;
 }
 
-function get_realname($figname, $vars) {
-    return preg_replace_callback("/{(.*?)}/", 
-            function($var) use ($vars) {
-                if ($var[1] == "type" && strstr($vars["type"], "__")) {
-                    $vals = explode("__", $vars["type"]);
-                    return $vals[1];
-                } elseif ($var[1] == "country" && $vars["type"] == "map"
-                        && $vars["country"] == "be") {
-                    return "nl";
-                } elseif ($var[1] == "cold") {
-                    return "cold".substr($vars["casedef"], 3);
-                } elseif ($var[1] == "gastro") {
-                    return "gastro".substr($vars["casedef"], 3);
-                } elseif ($var[1] == "allergy") {
-                    return "allergy".substr($vars["casedef"], 3);
-                } else {
-                    return $vars[$var[1]]; 
-                }
-            },
-            $figname);
+function get_realname($figname, $vars)
+{
+    return preg_replace_callback("/{(.*?)}/",
+        function ($var) use ($vars) {
+            if ($var[1] == "type" && strstr($vars["type"], "__")) {
+                $vals = explode("__", $vars["type"]);
+                return $vals[1];
+            } elseif ($var[1] == "country" && $vars["type"] == "map"
+                && $vars["country"] == "be") {
+                return "nl";
+            } elseif ($var[1] == "cold") {
+                return "cold" . substr($vars["casedef"], 3);
+            } elseif ($var[1] == "gastro") {
+                return "gastro" . substr($vars["casedef"], 3);
+            } elseif ($var[1] == "allergy") {
+                return "allergy" . substr($vars["casedef"], 3);
+            } else {
+                return $vars[$var[1]];
+            }
+        },
+        $figname);
 }
 
-function has_images($fignames, $figvars) {
+function has_images($fignames, $figvars)
+{
     // whether one of the images is available
     global $CONFIG;
 
     // First check just the basic images
-    foreach ($fignames as $key=>$figname) {
+    foreach ($fignames as $key => $figname) {
         $basename = get_realname($figname, $figvars[$key]);
         $ini = "{$CONFIG["local"]["ini"]}/{$basename}.ini";
         if (file_exists($ini)) {
@@ -381,9 +383,9 @@ function has_images($fignames, $figvars) {
     // No valid image found
     return False;
 }
-    
 
-function img($vars, $figname, $href="", $links=false)
+
+function img($vars, $figname, $href = "", $links = false)
 {
     global $CONFIG;
 
@@ -416,7 +418,8 @@ function img($vars, $figname, $href="", $links=false)
     return implode("\n", $images);
 }
 
-function img_ini($vars, $figname, $realname, $href, $links) {
+function img_ini($vars, $figname, $realname, $href, $links)
+{
     global $MENU, $CONFIG;
 
 
@@ -425,9 +428,9 @@ function img_ini($vars, $figname, $realname, $href, $links) {
     }
     $ini = "{$CONFIG["local"]["ini"]}/{$realname}.ini";
     $ini_big = "{$CONFIG["local"]["ini"]}/{$realname}_big.ini";
-    $title   = trans($vars["country"], "country") . " " 
-            . trans($vars["season"], "season") 
-            . " " . transMenu($vars["type"], $vars["group"]);
+    $title = trans($vars["country"], "country") . " "
+        . trans($vars["season"], "season")
+        . " " . transMenu($vars["type"], $vars["group"]);
 
     if ($CONFIG["settings"]["mtime"]) {
         $mtime = "?mtime="
@@ -464,51 +467,51 @@ function img_ini($vars, $figname, $realname, $href, $links) {
                 "{$CONFIG["public"]["ini"]}/{$realname}_big.ini");
             $large = trans("large", "website_results");
             $items["Download"] = array("__CSV", "__CSV ($large)",
-                    "PDF", "PDF ($large)", "__INI" ,"__INI ($large)");
+                "PDF", "PDF ($large)", "__INI", "__INI ($large)");
         }
 
         if ($CONFIG["settings"]["compare"]) {
             $compare = trans("compare", "website_results");
-            $hrefs[$compare]   = array();
-            $items[$compare]   = array(); 
+            $hrefs[$compare] = array();
+            $items[$compare] = array();
 
             $hrefs[$compare][] = "?page=results&country=compare"
-                      . "&season={$vars["season"]}"
-                      . "&casedef={$vars["casedef"]}"
-                      . "&type={$vars["type"]}"
-                      . "&group={$vars["group"]}"
-                      . "&lang={$vars["lang"]}";
+                . "&season={$vars["season"]}"
+                . "&casedef={$vars["casedef"]}"
+                . "&type={$vars["type"]}"
+                . "&group={$vars["group"]}"
+                . "&lang={$vars["lang"]}";
             $items[$compare][] = trans("countries", "website_results");
 
             $hrefs[$compare][] = "?page=results&season=compare"
-                      . "&country={$vars["country"]}"
-                      . "&casedef={$vars["casedef"]}"
-                      . "&type={$vars["type"]}"
-                      . "&group={$vars["group"]}"
-                      . "&lang={$vars["lang"]}";
+                . "&country={$vars["country"]}"
+                . "&casedef={$vars["casedef"]}"
+                . "&type={$vars["type"]}"
+                . "&group={$vars["group"]}"
+                . "&lang={$vars["lang"]}";
             $items[$compare][] = trans("seasons", "website_results");
 
             if (has_key($figname, "casedef")) {
                 $hrefs[$compare][] = "?page=results&casedef=compare"
-                      . "&country={$vars["country"]}"
-                      . "&season={$vars["season"]}"
-                      . "&type={$vars["type"]}"
-                      . "&group={$vars["group"]}"
-                      . "&lang={$vars["lang"]}";
+                    . "&country={$vars["country"]}"
+                    . "&season={$vars["season"]}"
+                    . "&type={$vars["type"]}"
+                    . "&group={$vars["group"]}"
+                    . "&lang={$vars["lang"]}";
                 $items[$compare][] = trans("casedefs", "website_results");
             }
         }
-        $hrefs["Data"]   = array();
-        $items["Data"]   = array(); 
+        $hrefs["Data"] = array();
+        $items["Data"] = array();
         $hrefs["Data"][] = "?page=_table&ini=$realname";
         $items["Data"][] = "Data";
 
         if (count($items) > 0) {
             $buttons = buttonsDropdown($items, $hrefs);
-            $output  = "<div style='float: right'>$buttons</div>
+            $output = "<div style='float: right'>$buttons</div>
                        <div style='clear:both'>$output</div>";
         }
     }
-    $output = "<div class='diagram'>". $output ."</div>\n";
+    $output = "<div class='diagram'>" . $output . "</div>\n";
     return $output;
 }
