@@ -97,7 +97,7 @@ function results_first()
 
     global $CONFIG;
 
-    $vars = array("casedef" => "corona",
+    $vars = array("casedef" => "ilit",
         "group" => "overview",
         "type" => "disease_prev__ili",
         "lang" => "en",
